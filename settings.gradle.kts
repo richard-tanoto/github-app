@@ -21,6 +21,9 @@ dependencyResolutionManagement {
             library("test-junit", "junit:junit:4.13.2")
             library("androidTest-junit", "androidx.test.ext:junit:1.1.5")
             library("androidTest-espresso", "androidx.test.espresso:espresso-core:3.5.1")
+            // Navigation
+            library("navigation-fragment", "androidx.navigation:navigation-fragment-ktx:2.7.3")
+            library("navigation-ui", "androidx.navigation:navigation-ui-ktx:2.7.3")
         }
     }
 }
