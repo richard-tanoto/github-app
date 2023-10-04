@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.richard.githubapp.HomeFragment"
+        android:name="com.richard.githubapp.feature.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailUserFragment"
-        android:name="com.richard.githubapp.DetailUserFragment"
+        android:name="com.richard.githubapp.feature.detail.DetailUserFragment"
         android:label="DetailUserFragment"
         tools:layout="@layout/fragment_detail_user">
         <argument
@@ -32,12 +32,12 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.richard.githubapp.FavoriteFragment"
+        android:name="com.richard.githubapp.feature.favorite.FavoriteFragment"
         android:label="FavoriteFragment"
         tools:layout="@layout/fragment_favorite"/>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.richard.githubapp.SettingFragment"
+        android:name="com.richard.githubapp.feature.setting.SettingFragment"
         android:label="SettingFragment"
         tools:layout="@layout/fragment_setting"/>
 </navigation>
