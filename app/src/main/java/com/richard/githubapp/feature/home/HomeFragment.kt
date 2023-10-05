@@ -1,13 +1,13 @@
 package com.richard.githubapp.feature.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupObserver()
         setupSearchQueryListener()
+        setupBackButton()
     }
 
     private fun setupToolbar() {
@@ -54,10 +55,12 @@ class HomeFragment : Fragment() {
                         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToFavoriteFragment())
                         true
                     }
+
                     R.id.destSetting -> {
                         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSettingFragment())
                         true
                     }
+
                     else -> false
                 }
             }
@@ -71,7 +74,11 @@ class HomeFragment : Fragment() {
             adapter = userAdapter
             userAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: User) {
-                    showToast(data.login)
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToDetailUserFragment(
+                            data.login
+                        )
+                    )
                 }
             })
         }
@@ -81,7 +88,11 @@ class HomeFragment : Fragment() {
             adapter = searchUserAdapter
             searchUserAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: User) {
-                    showToast(data.login)
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToDetailUserFragment(
+                            data.login
+                        )
+                    )
                 }
             })
         }
@@ -94,10 +105,12 @@ class HomeFragment : Fragment() {
                     showLoading(false)
                     userAdapter.setList(result.data)
                 }
+
                 is ApiResult.Loading -> {
                     showLoading(true)
                     userAdapter.clearList()
                 }
+
                 is ApiResult.Error -> {
                     showLoading(false)
                     showToast(result.message)
@@ -111,10 +124,12 @@ class HomeFragment : Fragment() {
                     showSearchLoading(false)
                     searchUserAdapter.setList(searchResult.data.items)
                 }
+
                 is ApiResult.Loading -> {
                     showSearchLoading(true)
                     searchUserAdapter.clearList()
                 }
+
                 is ApiResult.Error -> {
                     showSearchLoading(false)
                     showToast(searchResult.message)
@@ -126,8 +141,19 @@ class HomeFragment : Fragment() {
     private fun setupSearchQueryListener() {
         binding.searchView.editText.addTextChangedListener(
             onTextChanged = { text, _, _, _ ->
-                Log.d(HomeFragment::class.simpleName, text.toString())
                 if (text?.length != 0) viewModel.setQuery(text.toString())
+            }
+        )
+    }
+
+    private fun setupBackButton() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (binding.searchView.isShowing) binding.searchView.hide()
+                    remove()
+                }
             }
         )
     }

@@ -2,7 +2,10 @@ package com.richard.githubapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.richard.githubapp.databinding.ActivityMainBinding
+import com.richard.githubapp.feature.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,7 +1,9 @@
 package com.richard.githubapp.core.data
 
+import androidx.lifecycle.LiveData
 import com.richard.githubapp.core.data.remote.response.ApiResult
 import com.richard.githubapp.core.data.remote.response.SearchUserResponse
+import com.richard.githubapp.core.data.remote.response.UserDetailResponse
 import com.richard.githubapp.core.data.remote.response.model.User
 import com.richard.githubapp.core.data.remote.service.ApiService
 import kotlinx.coroutines.Dispatchers
@@ -41,5 +43,45 @@ class UserRepository @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    fun getUserDetail(login: String): Flow<ApiResult<UserDetailResponse>> {
+        return flow {
+            try {
+                val response = apiService.getUserDetail(login)
+                emit(ApiResult.Success(response))
+            } catch (exception: Exception) {
+                emit(ApiResult.Error(exception.message))
+            }
+        }.onStart {
+            emit(ApiResult.Loading())
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getUserFollowing(username: String): Flow<ApiResult<List<User>>>{
+        return flow {
+            try {
+                val response = apiService.getUserFollowing(username)
+                emit(ApiResult.Success(response))
+            } catch (exception: Exception) {
+                emit(ApiResult.Error(exception.message))
+            }
+        }.onStart {
+            emit(ApiResult.Loading())
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getUserFollowers(username: String): Flow<ApiResult<List<User>>>{
+        return flow {
+            try {
+                val response = apiService.getUserFollowers(username)
+                emit(ApiResult.Success(response))
+            } catch (exception: Exception) {
+                emit(ApiResult.Error(exception.message))
+            }
+        }.onStart {
+            emit(ApiResult.Loading())
+        }.flowOn(Dispatchers.IO)
+    }
+
 
 }
