@@ -26,4 +26,6 @@ class DetailViewModel @Inject constructor(
         this.login.value = login
     }
 
+    fun getLogin(): String? = login.value
+
 }

@@ -1,6 +1,7 @@
 package com.richard.githubapp.feature.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -38,8 +39,10 @@ class DetailUserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (viewModel.getLogin().isNullOrEmpty()) {
+            setUsername()
+        }
         setupToolbar()
-        setUsername()
         setupObserver()
     }
 

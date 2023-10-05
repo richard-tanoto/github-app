@@ -33,12 +33,14 @@ class ListUserFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUrl()
+        if (viewModel.getUsername().isNullOrEmpty()) {
+            setData()
+        }
         setupRecyclerView()
         setupObserver()
     }
 
-    private fun setUrl() {
+    private fun setData() {
         val login = arguments?.getString("login")
         login?.let {
             viewModel.setUsername(login)

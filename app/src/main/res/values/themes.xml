@@ -21,6 +21,10 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="Text.Description.Short">
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="Image"/>
 
     <style name="Image.Circle">

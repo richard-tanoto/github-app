@@ -28,4 +28,6 @@ class ListUserViewModel @Inject constructor(
         this.position.value = position
     }
 
+    fun getUsername(): String? = username.value
+
 }
