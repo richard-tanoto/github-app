@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
-import com.richard.githubapp.R
 import com.richard.githubapp.core.data.remote.response.ApiResult
 import com.richard.githubapp.core.data.remote.response.UserDetailResponse
 import com.richard.githubapp.databinding.FragmentDetailUserBinding
@@ -88,7 +87,8 @@ class DetailUserFragment : Fragment() {
         binding.viewpager.adapter = adapter
         binding.viewpager.offscreenPageLimit = 3
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
-            tab.text = if (position == 0) "${data.following} Following" else "${data.followers} Followers"
+            tab.text =
+                if (position == 0) "${data.following} Following" else "${data.followers} Followers"
         }.attach()
     }
 
