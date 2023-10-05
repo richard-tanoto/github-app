@@ -1,5 +1,7 @@
 package com.richard.githubapp.core.data
 
+import androidx.annotation.WorkerThread
+import com.richard.githubapp.core.data.local.UserDao
 import com.richard.githubapp.core.data.remote.response.ApiResult
 import com.richard.githubapp.core.data.remote.response.SearchUserResponse
 import com.richard.githubapp.core.data.remote.response.UserDetailResponse
@@ -10,10 +12,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val userDao: UserDao
 ) {
 
     fun getUsers(): Flow<ApiResult<List<User>>> {
@@ -80,5 +84,20 @@ class UserRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    fun getFavoriteUsers(): Flow<List<User>> {
+        return userDao.getUsers()
+    }
+
+    suspend fun isFavoriteUser(username: String) = userDao.isFavoriteUser(username)
+
+    @WorkerThread
+    suspend fun insertFavorite(user: User) {
+        userDao.insertUser(user)
+    }
+
+    @WorkerThread
+    suspend fun deleteFavorite(user: User) {
+        userDao.deleteUser(user)
+    }
 
 }

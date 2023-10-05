@@ -1,7 +1,7 @@
 package com.richard.githubapp.feature.detail
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.richard.githubapp.core.data.remote.response.ApiResult
 import com.richard.githubapp.core.data.remote.response.UserDetailResponse
+import com.richard.githubapp.core.data.remote.response.model.User
 import com.richard.githubapp.databinding.FragmentDetailUserBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +27,7 @@ class DetailUserFragment : Fragment() {
     private val viewModel: DetailViewModel by viewModels()
     private val args: DetailUserFragmentArgs by navArgs()
 
-    private var login: String? = null
+    private lateinit var user: User
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,12 +56,8 @@ class DetailUserFragment : Fragment() {
     }
 
     private fun setUsername() {
-        login = args.username
-        login?.let {
-            viewModel.setLogin(it)
-        } ?: run {
-            showToast("Something's wrong. Please try again.")
-        }
+        user = args.user
+        viewModel.setLogin(user.login)
     }
 
     private fun setupObserver() {
@@ -70,6 +67,7 @@ class DetailUserFragment : Fragment() {
                     showLoading(false)
                     setData(result.data)
                     setupViewPager(result.data)
+                    setupFavorite()
                 }
 
                 is ApiResult.Loading -> {
@@ -82,6 +80,10 @@ class DetailUserFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+            setupButton(isFavorite)
+        }
     }
 
     private fun setupViewPager(data: UserDetailResponse) {
@@ -93,6 +95,21 @@ class DetailUserFragment : Fragment() {
             tab.text =
                 if (position == 0) "${data.following} Following" else "${data.followers} Followers"
         }.attach()
+    }
+
+    private fun setupFavorite() {
+        binding.btnFavorite.apply {
+            visibility = VISIBLE
+        }
+        viewModel.checkFavorite(user.login)
+    }
+
+    private fun setupButton(isFavorite: Boolean) {
+        binding.btnFavorite.setColorFilter(if (isFavorite) Color.RED else Color.WHITE)
+        binding.btnFavorite.setOnClickListener {
+            if (isFavorite) viewModel.deleteFavorite(user) else viewModel.insertFavorite(user)
+            viewModel.setFavorite(!isFavorite)
+        }
     }
 
     private fun setData(data: UserDetailResponse) {

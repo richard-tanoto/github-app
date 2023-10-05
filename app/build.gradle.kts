@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
@@ -18,7 +19,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", "\"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\"")
+        buildConfigField("String", "API_KEY", "\"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\"")
     }
 
     buildTypes {
@@ -69,4 +70,8 @@ dependencies {
 
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
+
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
 }

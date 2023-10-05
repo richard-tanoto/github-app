@@ -39,6 +39,10 @@ dependencyResolutionManagement {
             // ViewModel and LiveData Lifecycle
             library("lifecycle-viewmodel","androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
             library("lifecycle-livedata","androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+            // Room
+            library("room-runtime","androidx.room:room-runtime:2.5.2")
+            library("room-compiler","androidx.room:room-compiler:2.5.2")
+            library("room-ktx","androidx.room:room-ktx:2.5.2")
         }
     }
 }

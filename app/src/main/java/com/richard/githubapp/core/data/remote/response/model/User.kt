@@ -1,7 +1,13 @@
 package com.richard.githubapp.core.data.remote.response.model
 
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
+@Entity(tableName = "users")
 data class User(
 
     @field:SerializedName("gists_url")
@@ -46,6 +52,7 @@ data class User(
     @field:SerializedName("site_admin")
     val siteAdmin: Boolean,
 
+    @PrimaryKey(autoGenerate = false)
     @field:SerializedName("id")
     val id: Int,
 
@@ -57,4 +64,4 @@ data class User(
 
     @field:SerializedName("organizations_url")
     val organizationsUrl: String
-)
+): Parcelable

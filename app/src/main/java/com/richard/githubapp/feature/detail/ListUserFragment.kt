@@ -61,7 +61,7 @@ class ListUserFragment: Fragment() {
             adapter = userAdapter
             userAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: User) {
-                    findNavController().navigate(DetailUserFragmentDirections.actionDetailUserFragmentSelf(data.login))
+                    findNavController().navigate(DetailUserFragmentDirections.actionDetailUserFragmentSelf(data))
                 }
             })
         }

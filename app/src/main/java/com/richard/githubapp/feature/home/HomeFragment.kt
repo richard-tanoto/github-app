@@ -75,9 +75,7 @@ class HomeFragment : Fragment() {
             userAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: User) {
                     findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToDetailUserFragment(
-                            data.login
-                        )
+                        HomeFragmentDirections.actionHomeFragmentToDetailUserFragment(data)
                     )
                 }
             })
@@ -89,9 +87,7 @@ class HomeFragment : Fragment() {
             searchUserAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
                 override fun onItemClicked(data: User) {
                     findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToDetailUserFragment(
-                            data.login
-                        )
+                        HomeFragmentDirections.actionHomeFragmentToDetailUserFragment(data)
                     )
                 }
             })
