@@ -1,12 +1,14 @@
 package com.richard.githubapp.feature.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,6 +26,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var userAdapter: UserAdapter
+    private lateinit var searchUserAdapter: UserAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +42,7 @@ class HomeFragment : Fragment() {
         setupToolbar()
         setupRecyclerView()
         setupObserver()
-        //TODO 5: Implement search feature
+        setupSearchQueryListener()
     }
 
     private fun setupToolbar() {
@@ -72,6 +75,16 @@ class HomeFragment : Fragment() {
                 }
             })
         }
+        binding.searchRvUser.apply {
+            searchUserAdapter = UserAdapter()
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = searchUserAdapter
+            searchUserAdapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
+                override fun onItemClicked(data: User) {
+                    showToast(data.login)
+                }
+            })
+        }
     }
 
     private fun setupObserver() {
@@ -83,6 +96,7 @@ class HomeFragment : Fragment() {
                 }
                 is ApiResult.Loading -> {
                     showLoading(true)
+                    userAdapter.clearList()
                 }
                 is ApiResult.Error -> {
                     showLoading(false)
@@ -90,10 +104,40 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.searchResult.observe(viewLifecycleOwner) { searchResult ->
+            when (searchResult) {
+                is ApiResult.Success -> {
+                    showSearchLoading(false)
+                    searchUserAdapter.setList(searchResult.data.items)
+                }
+                is ApiResult.Loading -> {
+                    showSearchLoading(true)
+                    searchUserAdapter.clearList()
+                }
+                is ApiResult.Error -> {
+                    showSearchLoading(false)
+                    showToast(searchResult.message)
+                }
+            }
+        }
+    }
+
+    private fun setupSearchQueryListener() {
+        binding.searchView.editText.addTextChangedListener(
+            onTextChanged = { text, _, _, _ ->
+                Log.d(HomeFragment::class.simpleName, text.toString())
+                if (text?.length != 0) viewModel.setQuery(text.toString())
+            }
+        )
     }
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) VISIBLE else GONE
+    }
+
+    private fun showSearchLoading(isLoading: Boolean) {
+        binding.searchProgressBar.visibility = if (isLoading) VISIBLE else GONE
     }
 
     private fun showToast(message: String?) {

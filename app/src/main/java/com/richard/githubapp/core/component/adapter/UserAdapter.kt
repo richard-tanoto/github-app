@@ -1,5 +1,6 @@
 package com.richard.githubapp.core.component.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -33,9 +34,14 @@ class UserAdapter: RecyclerView.Adapter<UserItemView>() {
     }
 
     fun setList(users: List<User>) {
-        list.clear()
         list.addAll(users)
-        notifyItemRangeChanged(0, list.lastIndex)
+        if (list.size > 1) notifyItemRangeChanged(0, list.lastIndex) else notifyItemInserted(0)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearList() {
+        list.clear()
+        notifyDataSetChanged()
     }
 
 }
