@@ -43,7 +43,6 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupObserver()
         setupSearchQueryListener()
-        setupBackButton()
     }
 
     private fun setupToolbar() {
@@ -136,6 +135,9 @@ class HomeFragment : Fragment() {
 
     private fun setupSearchQueryListener() {
         binding.searchView.editText.addTextChangedListener(
+            beforeTextChanged = { _, _, _, _ ->
+                setupBackButton()
+            },
             onTextChanged = { text, _, _, _ ->
                 if (text?.length != 0) viewModel.setQuery(text.toString())
             }
