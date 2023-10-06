@@ -26,9 +26,6 @@ class DetailUserFragment : Fragment() {
     private lateinit var binding: FragmentDetailUserBinding
     private val viewModel: DetailViewModel by viewModels()
     private val args: DetailUserFragmentArgs by navArgs()
-
-    private lateinit var user: User
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,7 +53,8 @@ class DetailUserFragment : Fragment() {
     }
 
     private fun setUsername() {
-        user = args.user
+        val user = viewModel.getUser() ?: args.user
+        viewModel.setUser(user)
         viewModel.setLogin(user.login)
     }
 
@@ -101,13 +99,13 @@ class DetailUserFragment : Fragment() {
         binding.btnFavorite.apply {
             visibility = VISIBLE
         }
-        viewModel.checkFavorite(user.login)
+        viewModel.checkFavorite()
     }
 
     private fun setupButton(isFavorite: Boolean) {
         binding.btnFavorite.setColorFilter(if (isFavorite) Color.RED else Color.WHITE)
         binding.btnFavorite.setOnClickListener {
-            if (isFavorite) viewModel.deleteFavorite(user) else viewModel.insertFavorite(user)
+            if (isFavorite) viewModel.deleteFavorite() else viewModel.insertFavorite()
             viewModel.setFavorite(!isFavorite)
         }
     }

@@ -21,6 +21,8 @@ class DetailViewModel @Inject constructor(
 
     private val login = MutableLiveData<String>()
 
+    private val user = MutableLiveData<User>()
+
     val isFavorite = MutableLiveData<Boolean>()
 
     val userDetail: LiveData<ApiResult<UserDetailResponse>> = login.switchMap {
@@ -33,19 +35,25 @@ class DetailViewModel @Inject constructor(
 
     fun getLogin(): String? = login.value
 
+    fun setUser(user: User) {
+        this.user.value = user
+    }
+
+    fun getUser(): User? = user.value
+
     fun setFavorite(isFavorite: Boolean) {
         this.isFavorite.value = isFavorite
     }
-    fun checkFavorite(username: String) = viewModelScope.launch {
-        isFavorite.value = userRepository.isFavoriteUser(username)
+    fun checkFavorite() = viewModelScope.launch {
+        isFavorite.value = login.value?.let { userRepository.isFavoriteUser(it) }
     }
 
-    fun insertFavorite(user: User) = viewModelScope.launch {
-        userRepository.insertFavorite(user)
+    fun insertFavorite() = viewModelScope.launch {
+        user.value?.let { userRepository.insertFavorite(it) }
     }
 
-    fun deleteFavorite(user: User) = viewModelScope.launch {
-        userRepository.deleteFavorite(user)
+    fun deleteFavorite() = viewModelScope.launch {
+        user.value?.let { userRepository.deleteFavorite(it) }
     }
 
 }
