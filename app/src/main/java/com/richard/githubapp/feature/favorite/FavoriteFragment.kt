@@ -12,10 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.richard.githubapp.R
 import com.richard.githubapp.core.component.adapter.UserAdapter
-import com.richard.githubapp.core.data.remote.response.ApiResult
 import com.richard.githubapp.core.data.remote.response.model.User
 import com.richard.githubapp.databinding.FragmentFavoriteBinding
-import com.richard.githubapp.feature.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
