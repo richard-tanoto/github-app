@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.richard.githubapp.core.data.remote.response.ApiResult
 import com.richard.githubapp.core.data.remote.response.UserDetailResponse
-import com.richard.githubapp.core.data.remote.response.model.User
 import com.richard.githubapp.databinding.FragmentDetailUserBinding
 import dagger.hilt.android.AndroidEntryPoint
 

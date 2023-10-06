@@ -9,4 +9,6 @@
     <string name="light_mode">Light mode</string>
     <string name="dark_mode">Dark mode</string>
     <string name="device_default">Device default</string>
+    <string name="tabs">tabs</string>
+    <string name="next">next</string>
 </resources>

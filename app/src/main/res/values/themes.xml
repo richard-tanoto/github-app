@@ -38,7 +38,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Text.Description.Short">
+    <style name="Text.Description.Center">
         <item name="android:textAlignment">center</item>
     </style>
 
